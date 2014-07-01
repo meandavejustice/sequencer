@@ -1,15 +1,31 @@
-.tracks {
-    float: left;
-    list-style: none;
-    padding: 0;
-}
-
-.tracks li {
-    display: table;
-    background: aquamarine;
-    border: 2px solid burlywood;
+.topper button {
+    width: 2.72em;
+    height: 2em;
+    margin: 0px 4px;
     padding: 4px;
 }
+
+.topper button:first-child {
+    margin-left: 116px;
+}
+
+/* .tracks { */
+/*     float: left; */
+/*     list-style: none; */
+/*     padding: 0; */
+/* } */
+
+/* .tracks li { */
+/*     display: table; */
+/*     background: aquamarine; */
+/*     border: 2px solid burlywood; */
+/*     padding: 4px; */
+/*     margin: 30px 10px; */
+/* } */
+
+/* .tracks li:first-child { */
+/*     margin: 5px; */
+/* } */
 
 .active {
     border: 2px dashed orangered;
@@ -21,6 +37,23 @@
     width: 75%;
     margin: 20px auto;
     border: 2px solid #eee;
+}
+
+.splash-container {
+    background: #fff;
+}
+
+.content {
+    border-top: 2px solid lightgray;
+}
+
+td:not(.track) {
+    padding: 10px 23px !important;
+}
+
+
+tbody td.on {
+    background: orange;
 }
 
 canvas {
@@ -68,6 +101,14 @@ canvas {
 
 .fileList li.added {
     background: lightGrey;
+}
+
+#scheduler ul li {
+    display: inline;
+}
+#scheduler ul li input {
+    width: 2.8em;
+    height: 2.8em;
 }
 
 .aside-1 {

@@ -13,7 +13,7 @@ module.exports = [
         }
     },
     {
-        method: 'GET', 
+        method: 'GET',
         path: '/files',
         handler: getFiles
     }

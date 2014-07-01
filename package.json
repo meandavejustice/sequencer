@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "domthing": "^0.1.0",
     "hapi": "^6.0.2",
     "ls": "^0.1.0",
     "ls-stream": "^1.0.0"
