@@ -7,7 +7,8 @@
     "domthing": "^0.1.0",
     "hapi": "^6.0.2",
     "ls": "^0.1.0",
-    "ls-stream": "^1.0.0"
+    "ls-stream": "^1.0.0",
+    "node-uuid": "^1.4.1"
   },
   "devDependencies": {},
   "scripts": {

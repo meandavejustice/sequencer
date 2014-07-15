@@ -14,12 +14,32 @@ module.exports = function () {
 };
 
 },{}],2:[function(require,module,exports){
+var uploader = document.querySelector('.upload');
+var sequenceBody = document.querySelector('tbody');
+var stepElements = Array.prototype.slice.call(document.querySelectorAll('.step'), 0);
 var TrackSource = require('./tracksource.js');
 var context = require('./audioContext.js')();
-var setup = false;
-var tracks = {};
-var butts = [];
-var sequence = {};
+var tracks = {}; // track audio object store
+var activeIndex = 0; // out of 16
+var bpm = 1000 / (180 / 60); // 60000/180;
+var beat; // interval
+var crate = {};
+
+var getId = function() { return Math.random().toString(16).slice(2);};
+
+stepElements.forEach(function(el) {
+  el.addEventListener('deactivate', function() {
+    this.classList.remove('active');
+  });
+});
+
+var step; // int
+
+
+uploader.addEventListener('change', function(ev) {
+  debugger;
+})
+
 
 function getTracklist() {
   var xhr = new XMLHttpRequest();
@@ -35,6 +55,7 @@ function getTracklist() {
 
 getTracklist();
 
+// fix dis shitd
 function removeTrack(ev, url) {
     if (ev) {
         ev.target.remove();
@@ -47,27 +68,30 @@ function removeTrack(ev, url) {
 }
 
 function addFile(trackObj) {
-    var url = trackObj.url;
-    var name = trackObj.name;
-    var trackEl = document.createElement('li');
-    trackEl.innerText = name;
-    trackEl.setAttribute('data-id', url);
-    trackEl.addEventListener('click', function(ev) {
-        if (!ev.target.className) {
-            ev.target.className = "added";
-            addNewTrack({
-                name: ev.target.innerText,
-                url: ev.target.attributes['data-id'].textContent
-            });
-        } else {
-            ev.target.className = "";
-            removeTrack(null, url);
-        }
-    }, false);
-    document.querySelector('.fileList ul').appendChild(trackEl);
+  var id = getId();
+  var url = trackObj.url;
+  var name = trackObj.name;
+  var trackEl = document.createElement('li');
+  trackEl.innerText = name;
+  trackEl.setAttribute('data-id', id);
+  trackEl.setAttribute('data-url', url);
+  trackEl.addEventListener('click', function(ev) {
+    if (!ev.target.className) {
+      ev.target.className = "added";
+      addNewTrack({
+        name: ev.target.innerText,
+        url: ev.target.attributes['data-url'].textContent,
+        id: ev.target.attributes['data-id'].textContent
+      });
+    } else {
+      ev.target.className = "";
+      removeTrack(null, url);
+    }
+  }, false);
+  document.querySelector('.fileList ul').appendChild(trackEl);
 }
 
-function getInputArray(index) {
+function getInputArray(id) {
   var selector = '#sequence tbody tr:nth-child('+ index + ') td:not(.track)';
   var tds = Array.prototype.slice.call(document.querySelectorAll(selector), 0);
   return tds.map(function(td) {
@@ -75,55 +99,58 @@ function getInputArray(index) {
   });
 }
 
-var trackIndex = 1;
-var trackMap = {};
-
 function addNewTrack (trackObj) {
   var url = trackObj.url;
   var name = trackObj.name;
-  var track = new TrackSource(context, {url: url});
-  trackMap[trackIndex] = url;
-  tracks[url] = track;
-  sequence[url] = getInputArray(trackIndex + 1);
+  var id = trackObj.id;
+  tracks[url] = new TrackSource(context, {url: url});
+  crate[id] = {
+    track: {
+      url: url,
+      name: name
+    },
+    sequence: []
+  };
+
   var row = document.createElement('tr');
   var trackEl = document.createElement('td');
   trackEl.innerText = name;
   trackEl.classList.add('track');
-  trackEl.setAttribute('data-id', url);
+  trackEl.setAttribute('data-id', id);
   trackEl.addEventListener('click', function(ev) {
-    var url = ev.target.attributes['data-id'].textContent;
+    var id = ev.target.attributes['data-id'].textContent;
+    var url = crate[id].track.url;
     tracks[url].play();
   }, false);
-  var tds = getTds(trackIndex);
+
+  var tds = getTds(id);
   row.appendChild(trackEl);
   for(var i = 0; i < tds.length; i++) {
     row.appendChild(tds[i]);
   }
-  document.querySelector('tbody').appendChild(row);
-  trackIndex++;
+  sequenceBody.appendChild(row);
 }
 
-function getTds(trackIndex) {
+function getTds(id) {
   var tds = [];
 
   for(var i = 0; i < 16; i++) {
     var td = document.createElement('td');
-    var dataGrid = trackIndex + '-' + (i+1);
-    td.setAttribute('data-grid', dataGrid);
+    td.setAttribute('data-grid', i + 1);
+    td.setAttribute('data-id', id);
 
-    td.addEventListener('click', function(ev) {
+    td.addEventListener('mousedown', function(ev) {
       var el = ev.target;
       var grid = el.attributes['data-grid'].textContent;
-      var index = grid.indexOf('-');
-      trackIndex = parseInt(grid.substring(0, index), 10);
-      index = parseInt(grid.substring(index + 1), 10);
-      var trackUrl = trackMap[trackIndex];
+      var id = el.attributes['data-id'].textContent;
+      var index = parseInt(grid, 10);
+      var trackUrl = crate[id].sequence;
       if (el.classList.contains('on')) {
         el.classList.remove('on');
-        sequence[trackUrl][index] = false;
+        crate[id].sequence[index] = false;
       } else {
         el.classList.add('on');
-        sequence[trackUrl][index] = true;
+        crate[id].sequence[index] = true;
       }
     })
     tds.push(td);
@@ -131,51 +158,25 @@ function getTds(trackIndex) {
   return tds;
 }
 
-function makeMyDay () {
-    for(var i = 0; i < 17; i++) {
-        var seq = document.querySelector('#sequence thead tr');
-        var butt = document.createElement('th');
-      if (i === 0) {
-        butt.innerText = 'Tracklist';
-      } else {
-        butt.innerText = i;
-        butt.setAttribute('data-id', i);
-        butt.addEventListener('click', function() {
-          alert('skewer is REALLY working!');
-        }, false);
-        butt.addEventListener('deactivate', function() {
-          if (this.className === "active") {
-            this.className = '';
-          }
-        }, false);
-        butts.push(butt);
-      }
-        seq.appendChild(butt);
-    }
-    setup = true;
-}
-
 function updateActiveIndex(i, max) {
-    var eventActive = new CustomEvent("deactivate", {"blah": true});
-    if (i !== 0) {
-      butts[i - 1].dispatchEvent(eventActive);
-    } else {
-      butts[max - 1].dispatchEvent(eventActive);
-    }
-  butts[i].className = 'active';
+  var eventActive = new CustomEvent("deactivate", {});
+  if (i !== 0) {
+    stepElements[i - 1].dispatchEvent(eventActive);
+  } else {
+    stepElements[max - 1].dispatchEvent(eventActive);
+  }
+  stepElements[i].classList.add('active');
 
-  var keys = Object.keys(sequence);
+  var keys = Object.keys(crate);
   keys.forEach(function(key) {
-    if (sequence[key][i + 1]) {
-      tracks[key].play();
+    if (crate[key].sequence[i + 1]) {
+      var url = crate[key].track.url;
+      tracks[url].play();
     }
-  })
+  });
 }
-
-var activeIndex = 0;
 
 function intervalFunc() {
-  if (!setup) return;
   updateActiveIndex(activeIndex, 16);
   if (activeIndex < 15) {
     activeIndex++;
@@ -183,9 +184,6 @@ function intervalFunc() {
     activeIndex = 0;
   }
 }
-
-var bpm = 60000/180;
-var beat;
 
 var playButton = document.getElementById('play');
 playButton.addEventListener('click', function(ev) {
@@ -202,13 +200,10 @@ playButton.addEventListener('click', function(ev) {
 })
 
 document.getElementById('bpm').addEventListener('change', function(ev) {
-  bpm = 60000 / parseInt(ev.target.value, 10);
+  bpm = 1000 / (parseInt(ev.target.value,10) / 60); // 60000 / parseInt(ev.target.value, 10);
   clearInterval(beat);
   beat = setInterval(intervalFunc, bpm);
 })
-
-
-makeMyDay();
 
 },{"./audioContext.js":1,"./tracksource.js":3}],3:[function(require,module,exports){
 /*
