@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♬ sequencer ♬</title>
     <link rel="stylesheet" href="styles/pure-min.css">
     <link rel="stylesheet" href="styles/marketing.css">
     <link rel="stylesheet" href="styles/main.css" type="text/css" media="screen" />
@@ -20,40 +21,8 @@
 
     <div class="splash-container">
       <div class="splash" style="width: 80%;">
-        <section id="sequence">
-          <table class="pure-table pure-table-bordered">
-            <thead>
-              <tr>
-                <th>Tracklist</th>
-                <th class="step">1</th>
-                <th class="step">2</th>
-                <th class="step">3</th>
-                <th class="step">4</th>
-
-                <th class="step">5</th>
-                <th class="step">6</th>
-                <th class="step">7</th>
-                <th class="step">8</th>
-
-                <th class="step">9</th>
-                <th class="step">10</th>
-                <th class="step">11</th>
-                <th class="step">12</th>
-
-                <th class="step">13</th>
-                <th class="step">14</th>
-                <th class="step">15</th>
-                <th class="step">16</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-
-          <div class="topper"></div>
-          <ul class="tracks"></ul>
-          <section id="scheduler">
-          </section>
-        </section>
+        <div class="todo"></div>
+        <section class="sequence-panel"></section>
       </div>
     </div>
 
@@ -63,11 +32,13 @@
 
         <div class="pure-g">
           <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <button id="play">PAUSE</button>
-            <input type="text" id="bpm" name="" value="120" />
-            <input type="file" class="upload" name="file" value="" />
-            <div class="fileList">
-              <ul></ul>
+            <div class="control">
+              <button id="play">PAUSE</button>
+              <input type="text" id="bpm" name="" value="120" />
+            </div>
+            <div class="filelist">
+              <ul class="default"></ul>
+              <ul class="user"></ul>
             </div>
           </div>
         </div>

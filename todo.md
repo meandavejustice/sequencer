@@ -1,5 +1,6 @@
 * upload files into indexedDB
 * a file list that makes sense
+
 * record & download
 * multiple sequences
 * volume per sequence

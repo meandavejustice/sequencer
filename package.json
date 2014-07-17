@@ -1,21 +1,33 @@
 {
   "name": "sequencer",
   "version": "0.0.0",
-  "description": "",
+  "description": "Audio Sequencer for the browser",
   "main": "server.js",
   "dependencies": {
-    "domthing": "^0.1.0",
     "hapi": "^6.0.2",
     "ls": "^0.1.0",
     "ls-stream": "^1.0.0",
-    "node-uuid": "^1.4.1"
+    "react": "^0.10.0",
+    "tiny-emitter": "^0.1.12"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "~2.36.0",
+    "envify": "^1.2.1",
+    "reactify": "^0.13.1",
+    "watchify": "~0.4.1"
+  },
   "scripts": {
+    "post-install": "npm run unzip-sounds && echo 'run npm run start' to run sequencer",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "start-dev": "watchify public/scripts/main.js -o public/bundle.js & nodemon server.js"
+    "unzip-sounds": "unzip sounds.zip -d public/",
+    "start": "watchify -o public/bundle.js -v -d public/scripts/main.js & nodemon server.js"
   },
-  "author": "",
-  "license": "ISC"
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  },
+  "author": "meandave",
+  "license": "MIT"
 }

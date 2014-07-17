@@ -90,13 +90,14 @@ canvas {
 .fileList {
   text-align: left;
   background: deepskyblue;
+  overflow-y: scroll;
+  max-height: 300px;
 }
 
 .fileList li {
-    display: inline-block;
     padding: 5px;
-    margin: 3px;
-    border: 2px solid rgb(255, 133, 0);
+    border: 1px solid lightgray;
+    list-style: none;
 }
 
 .fileList li.added {
