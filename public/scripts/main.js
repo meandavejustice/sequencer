@@ -1,21 +1,19 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
 var Emitter = require('tiny-emitter');
+var trackStore = require('./trackStore');
+var TrackSource = require('./tracksource');
+var orm = require('./orm');
+var context = require('./audioContext')();
+var genURL = require('./urlGen');
+
+var getId = function() { return Math.random().toString(16).slice(2);};
 
 var emitter = new Emitter();
-var tracks = [{
-  name: 'blah blah blah.mp3',
-  id: '12hufwfhuw'
-},
-{
-  name: 'blah blah blah.mp3',
-  id: '12hufwfhuw'
-}];
+var tracks = [];
 
-emitter.on('track:add', function (track) {
-  tracks.push(track);
-  React.renderComponent(<sequencer tracks={tracks} title={"Demo"} />, document.querySelector('.sequence-panel'));
-});
+var files = [];
+var userFiles = [];
 
 var filelist = require('./filelist')(emitter);
 var sequencer = require('./sequencer')(emitter);
@@ -24,15 +22,67 @@ var playButton = require('./controls/playButton')(emitter);
 
 var controlEl = document.querySelector('.control');
 
-var sequences = {};
-sequences[1] = {
-  tracks: tracks
+function bootstrap() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/files');
+  xhr.onloadend = function(ev) {
+    var response = JSON.parse(ev.target.response);
+    response.forEach(function(result) {
+      result.id = getId();
+      trackStore.addReference(result.id, result);
+      files.push(result);
+    });
+    renderFileList();
+  };
+  xhr.send();
+  orm.keyStream()
+  .on('data', function(data) {
+    var id = getId();
+    trackStore.addReference(id, {
+      key: data
+    });
+    userFiles.push({
+      id: id,
+      name: data
+    });
+  }).on('end', renderFileList);
 }
 
-React.renderComponent(<filelist />, document.querySelector('.filelist'));
+bootstrap();
 // React.renderComponent(<uploadInput />, controlEl);
 React.renderComponent(<playButton />, controlEl);
 React.renderComponent(<sequencer tracks={tracks} title={"Demo"} />, document.querySelector('.sequence-panel'));
+
+function renderFileList () {
+  React.renderComponent(<filelist files={files} userFiles={userFiles} />, document.querySelector('.filelist'));
+}
+
+function addTrack(track) {
+  tracks.push(track);
+  React.renderComponent(<sequencer tracks={tracks} title={"Demo"} />, document.querySelector('.sequence-panel'));
+}
+
+
+emitter.on('track:add', function (trackid) {
+  var track = trackStore.getReference(trackid);
+  if (!track.url) {
+    genURL(track.key, function(err, url) {
+      if (err) console.log('err getting track =>', track.key, ' from local store');
+      var trackObj = new TrackSource(context, {url: url});
+      trackStore.add(trackid, trackObj);
+      addTrack(track);
+    });
+  } else {
+    var trackObj = new TrackSource(context, {url: track.url});
+    trackStore.add(trackid, trackObj);
+    addTrack(track);
+  }
+});
+
+
+
+
+
 
 
 // var orm = require('./upload');

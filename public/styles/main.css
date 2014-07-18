@@ -1,3 +1,24 @@
+// pure Overrides
+.splash {
+    height: 90%;
+    background: #494949;
+}
+
+header .home-menu.pure-menu-open, .splash-container {
+    background: #494949;
+}
+
+header a, .pure-menu-heading {
+    color: rgb(42, 255, 178);
+}
+
+.pure-table thead {
+    background: rgb(42, 255, 178);
+}
+
+// end pure Overrides
+
+
 .topper button {
     width: 2.72em;
     height: 2em;
@@ -39,12 +60,9 @@
     border: 2px solid #eee;
 }
 
-.splash-container {
-    background: #fff;
-}
-
 .content {
     border-top: 2px solid lightgray;
+    background: rgb(111, 111, 111);
 }
 
 td:not(.track) {
@@ -53,7 +71,7 @@ td:not(.track) {
 
 
 tbody td.on {
-    background: orange;
+    background: rgb(235, 118, 240);
 }
 
 canvas {

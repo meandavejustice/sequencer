@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
-var getId = function() { return Math.random().toString(16).slice(2);};
 var orm = require('./orm');
 var trackStore = require('./trackStore');
 
@@ -19,35 +18,11 @@ module.exports = function(emitter) {
   });
 
   var FileList = React.createClass({
-    getInitialState: function() {
-      return {files: [], userFiles: []};
-    },
-
-    componentDidMount: function() {
-      var _this = this;
-      var results = [];
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/files');
-      xhr.onloadend = function(ev) {
-        var response = JSON.parse(ev.target.response);
-        response.forEach(function(result) {
-          result.id = getId();
-          results.push(result);
-        });
-        _this.setState({files: results});
-      };
-      xhr.send();
-      orm.keyStream()
-        .on('data', function(data) {
-          _this.state.userFiles.concat([data])
-        })
-    },
-
     render: function() {
       return (
           <div>
-          <DefaultList listTitle={'default'} files={this.state.files} />
-          <DefaultList listTitle={'users'} files={this.state.userFiles} />
+          <DefaultList listTitle={'default'} files={this.props.files} />
+          <DefaultList listTitle={'users'} files={this.props.userFiles} />
           </div>
       );
     }
