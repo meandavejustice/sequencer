@@ -17,10 +17,7 @@ var userFiles = [];
 
 var filelist = require('./filelist')(emitter);
 var sequencer = require('./sequencer')(emitter);
-var uploadInput = require('./controls/uploadButton');
-var playButton = require('./controls/playButton')(emitter);
-
-var controlEl = document.querySelector('.control');
+var controls = require('./controls/controls')(emitter);
 
 function bootstrap() {
   var xhr = new XMLHttpRequest();
@@ -49,9 +46,9 @@ function bootstrap() {
 }
 
 bootstrap();
-// React.renderComponent(<uploadInput />, controlEl);
-React.renderComponent(<playButton />, controlEl);
-React.renderComponent(<sequencer tracks={tracks} title={"Demo"} />, document.querySelector('.sequence-panel'));
+
+React.renderComponent(<sequencer tracks={tracks} />, document.querySelector('.sequence-panel'));
+React.renderComponent(<controls />, document.querySelector('.control'));
 
 function renderFileList () {
   React.renderComponent(<filelist files={files} userFiles={userFiles} />, document.querySelector('.filelist'));

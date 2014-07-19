@@ -4,7 +4,7 @@ var React = require('react/addons');
 module.exports = function(emitter) {
 var PlayButton = React.createClass({
   getInitialState: function() {
-    this.msgs = ['Play', 'Pause'];
+    this.msgs = ['►', ' ▌▌'];
     return {msg: this.msgs[0]};
   },
   onClick: function(ev) {
@@ -13,7 +13,7 @@ var PlayButton = React.createClass({
   },
   render: function() {
     return (
-      <button onClick={this.onClick}>{this.state.msg}</button>
+      <button className={"pure-button"} onClick={this.onClick}>{this.state.msg}</button>
     );
   }
 });

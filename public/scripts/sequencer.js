@@ -127,7 +127,6 @@ module.exports = function(emitter) {
       }
 
       return <section id={"sequence"}>
-          <h4>{this.props.title}</h4>
           <table className={"pure-table pure-table-bordered"}>
               <thead>
                   <tr>

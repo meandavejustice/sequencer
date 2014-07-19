@@ -1,6 +1,9 @@
 * upload files into indexedDB
 * a file list that makes sense
 
+* add a placeholder for empty sequences
+* "add sequence" button
+
 * record & download
 * multiple sequences
 * volume per sequence

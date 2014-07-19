@@ -16,6 +16,31 @@ header a, .pure-menu-heading {
     background: rgb(42, 255, 178);
 }
 
+.home-menu li a, .home-menu .pure-menu-heading {
+    color: rgb(42, 255, 178);
+}
+
+.home-menu li a:hover,
+.home-menu li a:focus {
+    background: none;
+    border: none;
+    color: rgb(235, 118, 240);
+}
+
+.pure-table {
+    border: 2px solid #696868;
+}
+
+.pure-button {
+    background-color: #4B4B4B;
+    color: rgb(29, 255, 147);
+}
+
+.pure-table-bordered td,
+.pure-table-bordered th {
+    border-bottom: 1px solid #cbcbcb;
+    border-color: #696868;
+}
 // end pure Overrides
 
 
@@ -49,15 +74,13 @@ header a, .pure-menu-heading {
 /* } */
 
 .active {
-    border: 2px dashed orangered;
-    background: orange;
+    background: rgba(81, 84, 87, 0.21);
 }
 .contain {width: 100%}
 #sequence {
     min-height: 400px;
     width: 75%;
     margin: 20px auto;
-    border: 2px solid #eee;
 }
 
 .content {
