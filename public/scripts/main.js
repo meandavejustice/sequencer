@@ -36,6 +36,7 @@ function bootstrap() {
   .on('data', function(data) {
     var id = getId();
     trackStore.addReference(id, {
+      id: id,
       key: data
     });
     userFiles.push({
@@ -59,14 +60,16 @@ function addTrack(track) {
   React.renderComponent(<sequencer tracks={tracks} title={"Demo"} />, document.querySelector('.sequence-panel'));
 }
 
-
 emitter.on('track:add', function (trackid) {
   var track = trackStore.getReference(trackid);
   if (!track.url) {
     genURL(track.key, function(err, url) {
       if (err) console.log('err getting track =>', track.key, ' from local store');
       var trackObj = new TrackSource(context, {url: url});
+      debugger;
       trackStore.add(trackid, trackObj);
+      // fix dis shit;
+      track.name = track.key;
       addTrack(track);
     });
   } else {

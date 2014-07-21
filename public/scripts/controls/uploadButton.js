@@ -2,21 +2,27 @@
 var React = require('react/addons');
 var orm = require('../orm');
 
+function parseB64(b64str) {
+  return {
+    base64: b64str.substr(b64str.indexOf(',') + 1),
+    type: b64str.match(/:([^}]*);/)[1]
+  }
+}
+
 var UploadInput = React.createClass({
   onChange: function(ev) {
     ev.preventDefault();
     var file = ev.target.files[0];
     var reader = new FileReader();
     reader.onloadend = function(buf) {
-      var obj = {
-        buffer: buf.target.result,
-        name: file.name
-      };
+      var obj = parseB64(buf.target.result);
+      obj.name = file.name;
+
       orm.put(file.name, obj, function(err) {
-        if (!err) console.log('PUT! ', file);
+        if (!err) console.log('PUT! ', file.name);
       })
     }
-    reader.readAsArrayBuffer(file);
+    reader.readAsDataURL(file);
   },
 
   render: function() {

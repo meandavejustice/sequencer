@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
 var orm = require('./orm');
-var trackStore = require('./trackStore');
 
 module.exports = function(emitter) {
   var DefaultList = React.createClass({
