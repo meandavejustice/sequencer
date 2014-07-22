@@ -128,17 +128,24 @@ canvas {
   background: lightgreen;
 }
 
-.fileList {
-  text-align: left;
-  background: deepskyblue;
-  overflow-y: scroll;
-  max-height: 300px;
+.files {
+    height: 200px;
+    overflow-y: scroll;
+    width: 400px;
+    border: 1px solid;
+    padding-left: 0;
+    text-align: left;
 }
 
-.fileList li {
-    padding: 5px;
-    border: 1px solid lightgray;
+.files li {
+    background: lightgray;
+    margin: 2px;
+    padding-left: 10px;
     list-style: none;
+}
+
+.users {
+    display: none;
 }
 
 .fileList li.added {

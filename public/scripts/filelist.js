@@ -17,95 +17,25 @@ module.exports = function(emitter) {
   });
 
   var FileList = React.createClass({
+    showDefault: function() {
+      this.refs.users.getDOMNode().style.display = 'none';
+      this.refs.default.getDOMNode().style.display = 'block';
+    },
+    showUserFiles: function() {
+      this.refs.default.getDOMNode().style.display = 'none';
+      this.refs.users.getDOMNode().style.display = 'block';
+    },
     render: function() {
       return (
           <div>
-          <DefaultList listTitle={'default'} files={this.props.files} />
-          <DefaultList listTitle={'users'} files={this.props.userFiles} />
+          <button onClick={this.showDefault}>Default Files</button>
+          <button onClick={this.showUserFiles}>User Files</button>
+          <DefaultList ref="default" listTitle={'default files'} files={this.props.files} />
+          <DefaultList ref="users" listTitle={'users files'} files={this.props.userFiles} />
           </div>
       );
     }
   });
 
   return FileList;
-}
-
-
-
-
-
-
-
-
-// var html = require('./html');
-// var hb = require('handlebars');
-// var trackTmp = require("../templates/track.hbs");
-// var trackStore = require('./trackStore');
-
-// var sequencePanel = document.querySelector('.sequencer-panel');
-// var defaultList = document.querySelector('.fileList .default');
-// var userList = document.querySelector('.fileList .user');
-
-// function addFile(id, data) {
-//   if (typeof data === "string") {
-//     data = {
-//       name: data,
-//       key: data
-//     }
-//   }
-//   data.id = id;
-//   trackReference[id] = data;
-
-//   renderFile(data);
-// }
-
-// function onFileClicked(ev) {
-//   var trackInfo = trackReference[ev.target.id];
-//   var newTrackEvent = new CustomEvent("track:new", trackInfo);
-//   sequencePanel.dispatchEvent(newTrackEvent);
-
-//   ev.target.className = "added";
-// }
-
-// function renderFile(data) {
-//   var trackEl = html(trackTmp(data))[0];
-
-//   if (data.url) {
-//     defaultList.appendChild(trackEl);
-//   } else {
-//     userList.appendChild(trackEl);
-//   }
-
-//   // trackEl = userList.querySelector('li[data-id="' + data.id + '"]');
-//   // trackEl.addEventListener('click', onFileClicked, false);
-// }
-
-// function loadUserFiles() {
-//   orm.keyStream().on('data', function(data) {
-//     addFile(getId(), data);
-//   })
-// }
-
-// function getTracklist() {
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', '/files');
-//   xhr.onloadend = function(ev) {
-//     var trackList = JSON.parse(ev.target.response);
-//     trackList.forEach(function(trackObj) {
-//       addFile(getId(), trackObj);
-//     });
-//   };
-//   xhr.send();
-
-//   loadUserFiles();
-// }
-
-// function init() {
-//   getTracklist();
-//   loadUserFiles();
-// }
-
-// module.exports = {
-//   init: init,
-//   addFile: addFile
-// }
+};
