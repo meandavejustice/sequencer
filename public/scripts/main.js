@@ -6,6 +6,7 @@ var TrackSource = require('./tracksource');
 var orm = require('./orm');
 var context = require('./audioContext')();
 var genURL = require('./urlGen');
+var placeholder = document.querySelector('.welcome');
 
 var getId = function() { return Math.random().toString(16).slice(2);};
 
@@ -48,6 +49,15 @@ function bootstrap() {
 
 bootstrap();
 
+var sequences = {
+    'idjfljdsalfja': {
+      component : blah,
+      tracks: []
+    }
+};
+
+
+
 React.renderComponent(<sequencer tracks={tracks} />, document.querySelector('.sequence-panel'));
 React.renderComponent(<controls />, document.querySelector('.control'));
 
@@ -77,4 +87,6 @@ emitter.on('track:add', function (trackid) {
     trackStore.add(trackid, trackObj);
     addTrack(track);
   }
+
+  placeholder.style.display = 'none';
 });

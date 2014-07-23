@@ -122,38 +122,17 @@ module.exports = function(emitter) {
       clearInterval(this.interval);
     },
     render: function() {
-      var addTrack = function(track) {
-        return <Track track={track} />
+      var addSequencer = function(sequenceObject) {
+        return <Sequencer id={sequenceObject.id} tracks={sequenceObject.tracks} />
       };
 
-      return <section id={"sequence"}>
-          <table className={"pure-table pure-table-bordered"}>
-              <thead>
-                  <tr>
-                      <th>Tracklist</th>
-                      <th onClick={this.updateSequence} >1</th>
-                      <th onClick={this.updateSequence} >2</th>
-                      <th onClick={this.updateSequence} >3</th>
-                      <th onClick={this.updateSequence} >4</th>
-                      <th onClick={this.updateSequence} >5</th>
-                      <th onClick={this.updateSequence} >6</th>
-                      <th onClick={this.updateSequence} >7</th>
-                      <th onClick={this.updateSequence} >8</th>
-                      <th onClick={this.updateSequence} >9</th>
-                      <th onClick={this.updateSequence} >10</th>
-                      <th onClick={this.updateSequence} >11</th>
-                      <th onClick={this.updateSequence} >12</th>
-                      <th onClick={this.updateSequence} >13</th>
-                      <th onClick={this.updateSequence} >14</th>
-                      <th onClick={this.updateSequence} >15</th>
-                      <th onClick={this.updateSequence} >16</th>
-                  </tr>
-              </thead>
-              <tbody>{this.props.tracks.map(addTrack, this)}</tbody>
-          </table>
-      </section>
+      return <section id={"sequence-panel"}>
+        <header>{this.props.sequenceNames.map(addButton, this)}</header>
+                <main>{this.props.tracks.map(addSequencer, this)}</main>
+                <tbody>{this.props.tracks.map(addTrack, this)}</tbody>
+          </section>
       }
   })
 
-  return Sequencer;
+  return SequencePanel;
 }

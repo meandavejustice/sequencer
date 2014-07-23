@@ -1,6 +1,6 @@
 // pure Overrides
 .splash {
-    height: 90%;
+    height: 90% !important;
     background: #494949;
 }
 
@@ -72,6 +72,19 @@ header a, .pure-menu-heading {
 /* .tracks li:first-child { */
 /*     margin: 5px; */
 /* } */
+
+.welcome {
+    position: absolute;
+    top: 90px;
+    background: white;
+    left: 27%;
+    width: 500px;
+    padding: 10px;
+}
+
+.welcome h3 {
+    color: rgb(235, 118, 240);
+}
 
 .active {
     background: rgba(81, 84, 87, 0.21);

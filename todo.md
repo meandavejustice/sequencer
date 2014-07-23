@@ -1,6 +1,3 @@
-* a file list that makes sense
-
-* add a placeholder for empty sequences
 * "add sequence" button
 
 * record & download
@@ -18,3 +15,5 @@
 * come up with a fucking name. soundbytes?
 
 * ~~upload files into indexedDB~~
+* ~~a file list that makes sense~~
+* ~~add a placeholder for empty sequences~~
