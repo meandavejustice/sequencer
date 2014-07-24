@@ -49,15 +49,6 @@ function bootstrap() {
 
 bootstrap();
 
-var sequences = {
-    'idjfljdsalfja': {
-      component : blah,
-      tracks: []
-    }
-};
-
-
-
 React.renderComponent(<sequencer tracks={tracks} />, document.querySelector('.sequence-panel'));
 React.renderComponent(<controls />, document.querySelector('.control'));
 

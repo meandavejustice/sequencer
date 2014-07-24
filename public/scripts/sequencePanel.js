@@ -128,9 +128,8 @@ module.exports = function(emitter) {
 
       return <section id={"sequence-panel"}>
         <header>{this.props.sequenceNames.map(addButton, this)}</header>
-                <main>{this.props.tracks.map(addSequencer, this)}</main>
-                <tbody>{this.props.tracks.map(addTrack, this)}</tbody>
-          </section>
+        <main>{this.props.sequencers.map(addSequencer, this)}</main>
+        </section>
       }
   })
 
