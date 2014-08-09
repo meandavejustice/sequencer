@@ -1,3 +1,4 @@
+* add userfiles on upload
 * "add sequence" button
 
 * record & download

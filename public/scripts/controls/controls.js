@@ -2,7 +2,7 @@
 var React = require('react/addons');
 
 module.exports = function(emitter) {
-  var uploadInput = require('./uploadButton');
+  var uploadInput = require('./uploadButton')(emitter);
   var playButton = require('./playButton')(emitter);
   var addSequenceButton = require('./addSequence')(emitter);
 

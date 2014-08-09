@@ -7,9 +7,9 @@ module.exports = function(emitter) {
       emitter.emit('sequence:add', {});
     },
     render: function() {
-              return (
-          <button className={"pure-button"} onClick={this.onClick}>"Add Sequence"</button>
-              );
+      return (
+          <button className={"pure-button"} onClick={this.onClick}>Add Sequence</button>
+      );
     }
   });
 
