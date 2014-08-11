@@ -124,10 +124,9 @@ module.exports = function(emitter) {
     render: function() {
       var addTrack = function(track) {
         return <Track track={track} />
-      }
+      };
 
-      return <section id={"sequence"}>
-          <table className={"pure-table pure-table-bordered"}>
+      return <table id={"sequence"} className={"pure-table pure-table-bordered"}>
               <thead>
                   <tr>
                       <th>Tracklist</th>
@@ -151,7 +150,6 @@ module.exports = function(emitter) {
               </thead>
               <tbody>{this.props.tracks.map(addTrack, this)}</tbody>
           </table>
-      </section>
       }
   })
 

@@ -12,7 +12,17 @@ var trackStore = function trackStore(){
     if (tracks.reference[key]) return tracks.reference[key];
   };
 
-  this.add = function(key, track){
+  this.keys = function() {
+    return Object.keys(tracks).filter(function(key) {
+             if (key !== 'reference') return key;
+           });
+  }
+
+  this.get = function(key) {
+    if (tracks[key]) return tracks[key];
+  }
+
+  this.add = function(key, track) {
     if (!tracks[key]) {
       tracks[key] = track;
     }

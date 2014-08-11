@@ -2,15 +2,21 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>♬ sequencer ♬</title>
+    <title>♬ SoundBytes ♬</title>
     <link rel="stylesheet" href="styles/pure-min.css">
     <link rel="stylesheet" href="styles/marketing.css">
     <link rel="stylesheet" href="styles/main.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="styles/tabs.css" type="text/css" media="screen" />
   </head>
   <body>
     <header class="header">
       <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">Sequencer</a>
+        <a class="pure-menu-heading" href="">SoundBytes</a>
+        <canvas id="fft" width="150" height="40"></canvas>
+        <div class="control">
+          <button id="play">PAUSE</button>
+          <input type="text" id="bpm" name="" value="120" />
+        </div>
         <ul>
           <li class="pure-menu-selected"><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
@@ -19,22 +25,28 @@
       </div>
     </header>
 
-    <div class="splash-container">
+    <div class="splash-container" style="height: 100%;">
       <div class="splash" style="width: 80%;">
-        <section class="sequence-panel"></section>
+        <div class="sequence-contain"></div>
+
+        <canvas id="fftime" width="900" height="800"></canvas>
+
+        <aside class="welcome" style="display: none;">
+          <h3>Welcome</h3>
+          <p>
+            To get started all you need to do is add some tracks from the file list below,
+            select a sequence and press play.
+          </p>
+        </aside>
+
       </div>
     </div>
 
     <div class="content-wrapper">
       <div class="content">
-        <h2 class="content-head is-center">Scroll to add tracks</h2>
-
         <div class="pure-g">
           <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <div class="control">
-              <button id="play">PAUSE</button>
-              <input type="text" id="bpm" name="" value="120" />
-            </div>
+            <div class="fileManager"></div>
             <div class="filelist">
               <ul class="default"></ul>
               <ul class="user"></ul>
