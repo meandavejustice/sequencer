@@ -66,8 +66,8 @@ module.exports = function(emitter) {
       this.heads[this.state.activeIndex - 1].dispatchEvent(silenceEv);
       this.heads[this.state.activeIndex].dispatchEvent(activateEv);
     },
-    updateStep: function() {
-      if (this.state.activeIndex === 16) {
+    updateStep: function(reset) {
+      if (this.state.activeIndex === 16 || reset) {
         this.setState({activeIndex: 0});
       }
       this.setState({activeIndex: this.state.activeIndex + 1});
@@ -110,9 +110,18 @@ module.exports = function(emitter) {
         }
       }, this)
 
+      emitter.on('sequence:stop', function() {
+        this.setState({activeIndex: 0});
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = undefined;
+        }
+      }, this)
+
       emitter.on('sequence:power', function() {
         if (this.interval) {
           clearInterval(this.interval);
+          this.interval = undefined;
         } else {
           this.interval = setInterval(this.updateStep, this.state.bpm);
         }
