@@ -1,13 +1,5 @@
 // pure Overrides
 
-.track-opts {
-    display: none;
-}
-
-.track-opts.showing {
-    display: block;
-}
-
 .splash {
     height: 90% !important;
     background: #494949;
@@ -182,6 +174,26 @@ tbody td.on {
     padding-left: 10px;
     list-style: none;
 }
+.track {
+    position: relative;
+}
+
+.track-opts {
+    position: absolute;
+    top: 1px;
+    left: -1777px;
+    background: rgba(23, 26, 25, 0.39);
+    padding: 7px 3px;
+    width: 100%;
+    color: #13FF13;
+}
+
+.track-opts span {
+    padding: 10px;
+}
+.track-opts.showing {
+    left: 0;
+}
 
 .users {
     display: none;
@@ -218,3 +230,4 @@ tbody td.on {
   .aside-2 { order: 3; }
   .footer  { order: 4; }
 }
+

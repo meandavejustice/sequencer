@@ -26,13 +26,13 @@ module.exports = function(emitter) {
       });
     },
     previewTrack: function(ev) {
-      var el = ev.target.getDomNode();
+      var el = this.getDOMNode(ev.target).querySelector('.track')
       emitter.emit('track:preview', {
         id: el.attributes['data-id'].textContent
       });
     },
     removeTrack: function(ev) {
-      var el = ev.target.getDomNode();
+      var el = this.getDOMNode(ev.target).querySelector('.track')
       emitter.emit('_track:remove', {
         id: el.attributes['data-id'].textContent
       });
@@ -41,7 +41,7 @@ module.exports = function(emitter) {
       this.setState({visible: true});
     },
     hideOptions: function(ev) {
-      this.setState({visible: true});
+      this.setState({visible: false});
     },
     render: function() {
       var visible = this.state.visible;
@@ -140,6 +140,10 @@ module.exports = function(emitter) {
       }, this)
 
       emitter.on('_track:remove', function(ev) {
+        if (this.state.crate[ev.id]) {
+          delete this.state.crate[ev.id];
+        }
+        trackStore.remove(ev.id);
         ev.seqId = this.props.id;
         emitter.emit('track:remove', ev);
       }, this)
