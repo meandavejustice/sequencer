@@ -3,6 +3,7 @@ var React = require('react/addons');
 
 module.exports = function(emitter) {
   var playButton = require('./playButton')(emitter);
+  var stopButton = require('./stopButton')(emitter);
   var addSequenceButton = require('./addSequence')(emitter);
 
   var Controls = React.createClass({
@@ -10,6 +11,7 @@ module.exports = function(emitter) {
       return (
         <div>
            <playButton />
+           <stopButton />
            <addSequenceButton />
           </div>
       );
