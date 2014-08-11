@@ -12,38 +12,67 @@ var getFreshSequence = function() {
 
 module.exports = function(emitter) {
   var Track = React.createClass({
+    getInitialState: function() {
+		  return {
+			  visible: false
+		  };
+    },
     updateSequence: function(ev) {
       var el = ev.target;
       el.classList.toggle('on');
       emitter.emit('sequence:update', {
         id: el.attributes['data-id'].textContent,
         index: parseInt(el.attributes['data-grid'].textContent, 10)
-      })
+      });
+    },
+    previewTrack: function(ev) {
+      var el = this.getDOMNode(ev.target).querySelector('.track')
+      emitter.emit('track:preview', {
+        id: el.attributes['data-id'].textContent
+      });
+    },
+    removeTrack: function(ev) {
+      var el = this.getDOMNode(ev.target).querySelector('.track')
+      emitter.emit('_track:remove', {
+        id: el.attributes['data-id'].textContent
+      });
+    },
+    showOptions: function(ev) {
+      this.setState({visible: true});
+    },
+    hideOptions: function(ev) {
+      this.setState({visible: false});
     },
     render: function() {
+      var visible = this.state.visible;
+
       return <tr>
-          <td className={"track"} data-id={this.props.track.id}>
-              {this.props.track.name}
-          </td>
-          <td onClick={this.updateSequence} data-grid={1} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={2} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={3} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={4} data-id={this.props.track.id}></td>
+               <td className={"track"} onMouseOut={this.hideOptions} onMouseOver={this.showOptions} data-id={this.props.track.id}>
+                   {this.props.track.name}
+                   <div className={"track-opts" + (visible ? " showing" : "")}>
+                       <span onClick={this.previewTrack}>►</span>
+                       <span onClick={this.removeTrack}>X</span>
+                   </div>
+               </td>
+               <td onClick={this.updateSequence} data-grid={1} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={2} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={3} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={4} data-id={this.props.track.id}></td>
 
-          <td onClick={this.updateSequence} data-grid={5} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={6} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={7} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={8} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={5} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={6} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={7} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={8} data-id={this.props.track.id}></td>
 
-          <td onClick={this.updateSequence} data-grid={9} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={10} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={11} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={12} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={9} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={10} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={11} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={12} data-id={this.props.track.id}></td>
 
-          <td onClick={this.updateSequence} data-grid={13} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={14} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={15} data-id={this.props.track.id}></td>
-          <td onClick={this.updateSequence} data-grid={16} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={13} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={14} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={15} data-id={this.props.track.id}></td>
+               <td onClick={this.updateSequence} data-grid={16} data-id={this.props.track.id}></td>
       </tr>
       }
   });
@@ -108,6 +137,19 @@ module.exports = function(emitter) {
         } else {
           this.state.crate[ev.id][ev.index] = 1;
         }
+      }, this)
+
+      emitter.on('_track:remove', function(ev) {
+        if (this.state.crate[ev.id]) {
+          delete this.state.crate[ev.id];
+        }
+        trackStore.remove(ev.id);
+        ev.seqId = this.props.id;
+        emitter.emit('track:remove', ev);
+      }, this)
+
+      emitter.on('track:preview', function(ev) {
+        trackStore.play(ev.id);
       }, this)
 
       emitter.on('sequence:stop', function() {

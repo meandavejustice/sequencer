@@ -14,10 +14,10 @@ module.exports = function(emitter) {
       };
       var addPanel = function(sequence) {
         return <div className={"tabs-section seq-content"}>
-          <Sequencer tracks={sequence.tracks} />
+          <Sequencer tracks={sequence.tracks} id={sequence.id} />
           </div>
       };
-       
+
       return <section id={"sequence-panel"}>
         <ul className={"tabs-list"}>
         {this.props.sequencers.map(addTab, this)}

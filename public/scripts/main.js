@@ -147,9 +147,20 @@ emitter.on('track:upload', function(ev) {
   });
 })
 
-emitter.on('track:remove', function (trackid) {
-  alert('NOT IMPLEMENTED');
-})
+emitter.on('track:remove', function (obj) {
+  sequencers.forEach(function(seq) {
+    if (seq.id === obj.seqId) {
+      for (var i = seq.tracks.length-1; i >= 0; i--) {
+        if (seq.tracks[i].id == obj.id) {
+          seq.tracks.splice(i, 1);
+          break;
+        }
+      }
+    }
+  });
+
+  updateSequence();
+});
 
 emitter.on('track:add', function (trackid) {
   var track = trackStore.getReference(trackid);
