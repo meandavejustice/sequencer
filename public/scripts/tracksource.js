@@ -12,6 +12,8 @@ function TrackSource (context, opts) {
   this.context = context;
   this.buffer = undefined;
   this.url = opts.url ? opts.url : undefined;
+  this.ffts = opts.ffts ? opts.ffts : [];
+  this.gainNode = opts.gainNode ? opts.gainNode : undefined;
 }
 
 TrackSource.prototype = {
@@ -47,15 +49,20 @@ TrackSource.prototype = {
       });
     }
   },
-  createSource: function(source) {
-    var buffer = source;
-    var bufsource = this.context.createBufferSource();
-    buffer.source = bufsource;
-    return buffer;
-  },
+
   onLoaded: function(source, silent) {
+    this.buffer = source;
     this.disconnect();
-    this.source = this.createSource(source);
+    this.source = this.context.createBufferSource();
+    this.source.buffer = this.buffer;
+    this.source.connect(this.gainNode);
+    this.ffts.forEach(function(fft) {
+      this.gainNode.connect(fft.input);
+    }, this);
+    this.gainNode.connect(this.context.destination);
+    this.ffts.forEach(function(fft) {
+      fft.connect(this.context.destination);
+    }, this);
     if (!silent) this.playSound();
   },
   disconnect: function() {

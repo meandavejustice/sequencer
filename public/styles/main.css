@@ -4,6 +4,22 @@
     background: #494949;
 }
 
+.control {
+    display: inline-block;
+}
+
+#fft {
+    margin-bottom: -20px;
+    margin-left: -160px;
+}
+
+#fftime {
+    z-index: -1;
+    position: absolute;
+    top: -200px;
+    left: 13%;
+}
+
 header .home-menu.pure-menu-open, .splash-container {
     background: #494949;
 }
@@ -34,6 +50,7 @@ header a, .pure-menu-heading {
 .pure-button {
     background-color: #4B4B4B;
     color: rgb(29, 255, 147);
+    border: 1px solid lightgray;
 }
 
 .pure-table-bordered td,
@@ -80,6 +97,8 @@ header a, .pure-menu-heading {
     left: 27%;
     width: 500px;
     padding: 10px;
+    z-index: 10;
+    border: 2px solid;
 }
 
 .welcome h3 {
@@ -90,12 +109,14 @@ header a, .pure-menu-heading {
     background: rgba(81, 84, 87, 0.21);
 }
 .contain {width: 100%}
-#sequence {
-    min-height: 400px;
-    width: 75%;
-    margin: 20px auto;
+
+.sequence-panel {
+    z-index: 10;
 }
 
+.content-wrapper {
+    top: 96%;
+}
 .content {
     border-top: 2px solid lightgray;
     background: rgb(111, 111, 111);
@@ -110,10 +131,6 @@ tbody td.on {
     background: rgb(235, 118, 240);
 }
 
-canvas {
-    margin: 10px;
-    box-shadow: 6px 7px 10px 1px rgba(50, 50, 50, 0.77);
-}
 .wrapper {
   display: -webkit-box;
   display: -moz-box;
