@@ -1,4 +1,13 @@
 // pure Overrides
+
+.track-opts {
+    display: none;
+}
+
+.track-opts.showing {
+    display: block;
+}
+
 .splash {
     height: 90% !important;
     background: #494949;

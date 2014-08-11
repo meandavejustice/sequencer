@@ -147,8 +147,8 @@ emitter.on('track:upload', function(ev) {
   });
 })
 
-emitter.on('track:remove', function (trackid) {
-  alert('NOT IMPLEMENTED');
+emitter.on('track:remove', function (obj) {
+  debugger;
 })
 
 emitter.on('track:add', function (trackid) {
