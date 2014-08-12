@@ -138,6 +138,17 @@ emitter.on('sequence:add', function(ev) {
   updateSequence();
 })
 
+emitter.on('sequence:remove', function(ev) {
+  for (var i = sequencers.length-1; i >= 0; i--) {
+    if (sequencers[i].id == ev.id) {
+      sequencers.splice(i, 1);
+      break;
+    }
+  }
+
+  updateSequence();
+})
+
 emitter.on('track:upload', function(ev) {
   orm.get(ev.key, function(err, data) {
     if (err) console.warn('couldn\'t get ' + ev.key + ' from indexedDB');

@@ -112,6 +112,8 @@ header a, .pure-menu-heading {
 .contain {width: 100%}
 
 .sequence-panel {
+    width: 75%;
+    margin: 0 auto;
     z-index: 10;
 }
 
@@ -176,6 +178,12 @@ tbody td.on {
 }
 .track {
     position: relative;
+}
+
+.track > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .track-opts {

@@ -110,6 +110,14 @@ module.exports = function(emitter) {
         }
       }, this)
     },
+    componentWillUnmount: function() {
+      if (this.interval) clearInterval(this.interval);
+      this.interval = undefined;
+
+      Object.keys(this.state.crate).forEach(function(key) {
+        trackStore.remove(key);
+      });
+    },
     componentDidMount: function() {
       this.heads = Array.prototype.slice.call(
         this.getDOMNode().querySelectorAll('th'), 0);
@@ -138,7 +146,16 @@ module.exports = function(emitter) {
           this.state.crate[ev.id][ev.index] = 1;
         }
       }, this)
+      emitter.on('sequence:remove', function(ev) {
+        // this should actually live in componentWillUnmount, if
+        // I can figure out how to trigger it, when I have wifi.
+        if (this.interval) clearInterval(this.interval);
+        this.interval = undefined;
 
+        Object.keys(this.state.crate).forEach(function(key) {
+          trackStore.remove(key);
+        });
+      }, this)
       emitter.on('_track:remove', function(ev) {
         if (this.state.crate[ev.id]) {
           delete this.state.crate[ev.id];
