@@ -1,4 +1,5 @@
 node_modules
 public/sounds
+public/bundle.js
 .tern-project
 .tern-port

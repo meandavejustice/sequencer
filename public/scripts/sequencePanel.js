@@ -6,11 +6,16 @@ module.exports = function(emitter) {
 
   var SequencePanel = React.createClass({
     setActive: function(ev) {
-      emitter.emit('sequence:activate', {"id": ev.target.id})
+      emitter.emit('sequence:activate', {"id": ev.target.parentElement.id})
+    },
+    removeSequence: function(ev) {
+      emitter.emit('sequence:remove', {"id": ev.target.parentElement.id});
     },
     render: function() {
       var addTab = function(sequence) {
-        return <li onClick={this.setActive} id={sequence.id} contentEditable>{sequence.title}</li>
+        return <li onClick={this.setActive} id={sequence.id} contentEditable>{sequence.title}>
+<span className={"remove"} onClick={this.removeSequence} >X</span>
+          </li>
       };
       var addPanel = function(sequence) {
         return <div className={"tabs-section seq-content"}>
