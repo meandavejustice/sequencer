@@ -1,4 +1,4 @@
-var db = require('./clientDB');
+var db = require('../clientDB');
 
 function put(key, file, cb) {
   db.put(key, file, function(err) {

@@ -2,12 +2,12 @@
 var React = require('react/addons');
 var Emitter = require('tiny-emitter');
 var tabs = require('hut-tabs');
-var context = require('./audioContext')();
-var trackStore = require('./trackStore');
-var TrackSource = require('./tracksource');
 
-var genURL = require('./urlGen');
-var FFT = require('./fft');
+var context = require('./utils/audioContext')();
+var trackStore = require('./utils/trackStore');
+var TrackSource = require('./utils/tracksource');
+var genURL = require('./utils/urlGen');
+var FFT = require('./utils/fft');
 var getId = require('./utils/getId');
 
 var emitter = new Emitter();

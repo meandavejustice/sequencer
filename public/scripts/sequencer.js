@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var trackStore = require('./trackStore');
+var trackStore = require('./utils/trackStore');
 var getFreshSequence = function() {
   return [
     0,0,0,0,

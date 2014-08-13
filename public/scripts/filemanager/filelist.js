@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
-var orm = require('../orm');
-var trackStore = require('../trackStore');
+var orm = require('../utils/orm');
+var trackStore = require('../utils/trackStore');
 var getId = require('../utils/getId');
 
 var userFiles = [];

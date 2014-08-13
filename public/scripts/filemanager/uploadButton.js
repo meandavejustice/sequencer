@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
-var orm = require('../orm');
+var orm = require('../utils/orm');
 
 function parseB64(b64str) {
   return {

@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
-var orm = require('../orm');
 
 module.exports = function(emitter) {
   var filelist = require('./filelist')(emitter);
