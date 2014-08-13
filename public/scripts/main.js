@@ -1,32 +1,28 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
 var Emitter = require('tiny-emitter');
+var tabs = require('hut-tabs');
+var context = require('./audioContext')();
 var trackStore = require('./trackStore');
 var TrackSource = require('./tracksource');
-var orm = require('./orm');
-var context = require('./audioContext')();
+
 var genURL = require('./urlGen');
 var FFT = require('./fft');
-var placeholder = document.querySelector('.welcome');
+var getId = require('./utils/getId');
 
-var tabs = require('hut-tabs');
-
-var getId = function() { return Math.random().toString(16).slice(2);};
-
-var gainNode = context.createGain();
-var fft = new FFT(context, {canvas: document.getElementById('fft')});
-var fftime = new FFT(context, {canvas: document.getElementById('fftime'), type: "time"});
 var emitter = new Emitter();
-
-var sequencers = [];
-
-var files = [];
-var userFiles = [];
+var gainNode = context.createGain();
 
 var sequencePanel = require('./sequencePanel')(emitter);
-var filelist = require('./filelist')(emitter);
 var controls = require('./controls/controls')(gainNode, emitter);
 var fileManager = require('./filemanager/filemanager')(emitter);
+
+var fft = new FFT(context, {canvas: document.getElementById('fft')});
+var fftime = new FFT(context, {canvas: document.getElementById('fftime'), type: "time"});
+
+var placeholder = document.querySelector('.welcome');
+
+var sequencers = [];
 
 function getFreshSequence() {
   var activeSeq = {
@@ -63,61 +59,12 @@ function getActiveSequencer() {
   }
 }
 
-function bootstrap() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/files');
-  xhr.onloadend = function(ev) {
-    var response = JSON.parse(ev.target.response);
-    response.forEach(function(result) {
-      result.id = getId();
-      trackStore.addReference(result.id, result);
-      files.push(result);
-    });
-    renderFileList(files, userFiles);
-  };
-  xhr.send();
-  loadUserFiles();
-}
-
-function loadUserFiles() {
-  orm.keyStream()
-  .on('data', function(data) {
-    registerFile(data);
-  }).on('end', function() {
-    renderFileList(files, userFiles);
-  });
-}
-
-
-// This should be passed a data object from ORM
-function registerFile(data) {
-  var id = getId();
-  var userFile = {
-    id: id,
-    name: data
-  };
-
-  trackStore.addReference(id, {
-    id: id,
-    key: data
-  });
-  userFiles.push(userFile);
-
-  return data.name;
-}
-
-bootstrap();
-var fileListComponent;
 getActiveSequencer();
 var sequencerPanelComponent = React.renderComponent(<sequencePanel sequencers={sequencers} />, document.querySelector('.sequence-contain'));
 var controlsComponent = React.renderComponent(<controls />, document.querySelector('.control'));
-var fileManagerComponenet = React.renderComponent(<fileManager />, document.querySelector('.fileManager'));
+var fileManagerComponent = React.renderComponent(<fileManager />, document.querySelector('.fileManager'));
 
 var myTabs = tabs(document.getElementById('sequence-panel'));
-
-function renderFileList (files, userFiles) {
-  fileListComponent = React.renderComponent(<filelist files={files} userFiles={userFiles} />, document.querySelector('.filelist'));
-}
 
 function updateSequence() {
   sequencerPanelComponent.setProps({sequencers: sequencers});
@@ -147,15 +94,6 @@ emitter.on('sequence:remove', function(ev) {
   }
 
   updateSequence();
-})
-
-emitter.on('track:upload', function(ev) {
-  orm.get(ev.key, function(err, data) {
-    if (err) console.warn('couldn\'t get ' + ev.key + ' from indexedDB');
-
-    var userFile = registerFile(ev.key);
-    fileListComponent.setProps({userFiles: userFiles});
-  });
 })
 
 emitter.on('track:remove', function (obj) {
