@@ -52,6 +52,7 @@ header a, .pure-menu-heading {
     background-color: #4B4B4B;
     color: rgb(29, 255, 147);
     border: 1px solid lightgray;
+    margin: 0 5px;
 }
 
 .pure-table-bordered td,
@@ -115,6 +116,11 @@ header a, .pure-menu-heading {
     width: 75%;
     margin: 0 auto;
     z-index: 10;
+}
+
+.sequence-contain {
+    margin: 0 auto;
+    width: 70%;
 }
 
 .content-wrapper {
