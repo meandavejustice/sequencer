@@ -170,6 +170,7 @@ module.exports = function(emitter) {
       }, this)
 
       emitter.on('sequence:stop', function() {
+        debugger; // check setProps
         this.setState({activeIndex: 0});
         if (this.interval) {
           clearInterval(this.interval);
