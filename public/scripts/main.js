@@ -25,7 +25,7 @@ var userFiles = [];
 
 var sequencePanel = require('./sequencePanel')(emitter);
 var filelist = require('./filelist')(emitter);
-var controls = require('./controls/controls')(emitter);
+var controls = require('./controls/controls')(gainNode, emitter);
 var fileManager = require('./filemanager/filemanager')(emitter);
 
 function getFreshSequence() {
