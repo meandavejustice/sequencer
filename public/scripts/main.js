@@ -8,6 +8,7 @@ var trackStore = require('./utils/trackStore');
 var TrackSource = require('./utils/tracksource');
 var genURL = require('./utils/urlGen');
 var FFT = require('./utils/fft');
+var DrawBuffer = require('./utils/draw-buffer');
 var getId = require('./utils/getId');
 
 var emitter = new Emitter();
@@ -18,9 +19,13 @@ var controls = require('./controls/controls')(gainNode, emitter);
 var fileManager = require('./filemanager/filemanager')(emitter);
 
 var fft = new FFT(context, {canvas: document.getElementById('fft')});
-var fftime = new FFT(context, {canvas: document.getElementById('fftime'), type: "time"});
+// var fftime = new FFT(context, {canvas: document.getElementById('fftime'), type: "time"});
+var fftime = new DrawBuffer(context, {canvas: document.getElementById('fftime'), type: "time"});
 
 var placeholder = document.querySelector('.welcome');
+
+var Recorder = require('./utils/recorder.js');
+debugger;
 
 var sequencers = [];
 
