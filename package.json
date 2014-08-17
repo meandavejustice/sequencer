@@ -4,6 +4,7 @@
   "description": "Audio Sequencer for the browser",
   "main": "server.js",
   "dependencies": {
+    "hacker-deps": "^0.1.1",
     "hapi": "^6.0.2",
     "ls": "^0.1.0",
     "ls-stream": "^1.0.0",
@@ -18,6 +19,7 @@
   },
   "scripts": {
     "post-install": "npm run unzip-sounds && echo 'run npm run start' to run sequencer",
+    "hackers-text": "hacker-deps > public/hackers.txt",
     "test": "echo \"Error: no test specified\" && exit 1",
     "unzip-sounds": "unzip sounds.zip -d public/",
     "start": "watchify -o public/bundle.js -v -d public/scripts/main.js & nodemon server.js"
